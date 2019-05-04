@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title> Demo </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../public/css/bootstrap.min.css">
+    <script src="../public/js/jquery-3.3.1.slim.min.js"></script>
+    <script src="../public/js/popper.min.js"></script>
+    <script src="../public/js/bootstrap.min.js"></script>
+</head>
+
+<body >
+
+    <div class="container p-3 bg-secondary">
+        <%- body %>
+    </div>
+
+    <script>
+
+        const addBtn = document.getElementById('add');
+        const ul = document.getElementById('list-username');
+
+        addBtn.onclick = function(event){
+            const username = document.getElementById('username').value;
+    		const url = '/index';
+    		fetch(url, {
+    			method: 'POST',
+    			headers: {
+    				'Accept': 'application/json',
+    				'Content-Type': 'application/json',
+    				'X-Requested-With': 'XMLHttpRequest'
+    			},
+    			body: JSON.stringify({
+    				username: username,
+    			})
+    		})
+    		.then(function(response) {
+    			return response.json();
+    		})
+    		.then(function(myJson) {
+                const newLi = `
+    				<li class="list-group-item text-danger font-weight-bold" style="background:greenyellow">
+    					${myJson.msg}
+    				</li>
+			    `;
+    			$('#list-username').prepend(newLi);
+    		});
+    		document.getElementById("username").value = '';
+    	};
+
+    </script>
+
+</body>
+
+</html>
